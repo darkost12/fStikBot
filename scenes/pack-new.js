@@ -235,7 +235,7 @@ newPackConfirm.enter(async (ctx, next) => {
   const inline = !!ctx.session.scene?.newPack?.inline
 
   const nameSuffix = `_by_${ctx.options.username}`
-  const titleSuffix = ` :: @${ctx.options.username}`
+  const titleSuffix = ``
 
   let { name, title, animated, video } = ctx.session.scene.newPack
 
@@ -544,13 +544,14 @@ newPackConfirm.enter(async (ctx, next) => {
               total: originalPack.stickers.length
             }),
             { parse_mode: 'HTML' }
-          ).catch(() => {})
+          ).catch(() => { })
         }
       }
 
       await ctx.telegram.deleteMessage(message.chat.id, message.message_id)
 
-      await ctx.replyWithHTML(ctx.i18n.t('scenes.copy.done', {
+      await ctx.replyWithHTML(
+        ctx.i18n.t('scenes.copy.done', {
           originalTitle: originalPack.title,
           originalLink: `${ctx.config.stickerLinkPrefix}${originalPack.name}`,
           title: escapeHTML(title),
